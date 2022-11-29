@@ -21,5 +21,10 @@ namespace la_mia_pizzeria_static.Controllers.Api
             List<Pizza> pizze = pizzaRepository.All();
             return Ok(pizze);
         }
+        public IActionResult Search(string? name)
+        {
+            List<Pizza> pizze = pizzaRepository.GetByName(name);
+            return Ok(pizze);
+        }
     }
 }

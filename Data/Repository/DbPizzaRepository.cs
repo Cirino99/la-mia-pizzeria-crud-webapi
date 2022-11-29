@@ -18,6 +18,10 @@ namespace la_mia_pizzeria_static.Data.Repository
         {
             return db.Pizze.Where(p => p.Id == id).Include("Category").Include("Ingredients").FirstOrDefault();
         }
+        public List<Pizza> GetByName(string name)
+        {
+            return db.Pizze.Where(p => p.Name.Contains(name)).ToList();
+        }
         public void Create(Pizza pizza, List<Ingredient> ingredients, Category category)
         {
             pizza.Category = category;

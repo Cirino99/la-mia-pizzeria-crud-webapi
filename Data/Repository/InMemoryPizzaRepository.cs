@@ -15,6 +15,10 @@ namespace la_mia_pizzeria_static.Data.Repository
         {
             return pizze.Where(p => p.Id == id).FirstOrDefault();
         }
+        public List<Pizza> GetByName(string name)
+        {
+            return pizze.Where(p => p.Name.Contains(name)).ToList();
+        }
         public void Create(Pizza pizza, List<Ingredient> ingredients, Category category)
         {
             pizza.Id = count;
