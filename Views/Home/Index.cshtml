@@ -75,7 +75,7 @@
                                     <h5 class="card-title">${pizza.name}</h5>
                                     <p class="card-text">${pizza.description}</p>
                                     <p class="card-text">Prezzo: ${pizza.price} €</p>
-                                    <a class="btn btn-primary">Dettagli</a>
+                                    <a class="btn btn-primary" href="@Url.Action("Detail","Home")/${pizza.id}">Dettagli</a>
                                 </div>
                             </div>
                         `;

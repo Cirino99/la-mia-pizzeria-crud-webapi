@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Route("[controller]/[action]/{id?}",Order = 0)] //serve per dare un ordine in caso di controller con nome ed action uguale
     public class PizzaController : Controller
     {
         IPizzaRepository pizzaRepository;

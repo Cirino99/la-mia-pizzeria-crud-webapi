@@ -1,0 +1,43 @@
+﻿@model int
+
+<div class="text-center">
+    <h1>Dettaglio Pizza</h1>
+</div>
+<section class="ms-5 js_detail_pizza">
+    
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        axios.get(`/api/pizza/detail/${@Model}`).then(res => {
+            const pizza = res.data;
+            console.log(pizza);
+            document.querySelector('.js_detail_pizza').innerHTML +=
+                `
+                    <h2>Pizza: ${pizza.name}</h2>
+                    <img src="https://img.pizza/350/400" alt="pizza">
+                    <h5>Categoria: ${pizza.category.name}</h5>
+                    <div class="d-flex flex-wrap">
+                        <h5>Ingredienti: </h5>
+                        <ul>
+                            ${Ingredients(pizza.ingredients)}
+                        </ul>
+                    </div>
+                    <p>Descrizione: ${pizza.description}</p>
+                    <h5>Prezzo: ${pizza.price} €</h5>
+                `;
+        }).catch(error => console.log(error));
+
+        function Prova(){
+            return "<li>prova</li>";
+        }
+
+        function Ingredients(ingredientsArr) {
+            ingredients = "";
+            ingredientsArr.forEach(ingredient => {
+                ingredients += `<li class="badge btn-info">${ingredient.name}</li> `;
+            });
+            return ingredients;
+        }
+    </script>    
+}
