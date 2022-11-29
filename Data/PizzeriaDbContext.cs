@@ -5,20 +5,20 @@ namespace la_mia_pizzeria_static.Data
 {
     public class PizzeriaDbContext : DbContext
     {
-        private PizzeriaDbContext()
-        {
+        //private PizzeriaDbContext()
+        //{
 
-        }
+        //}
         // serve per avere una sola istanza di PizzeriaDbContext
-        private static PizzeriaDbContext _instance;
-        public static PizzeriaDbContext Instance
-        {
-            get { 
-                if(_instance == null)
-                    _instance = new PizzeriaDbContext();
-                return _instance;
-            }
-        }
+        //private static PizzeriaDbContext _instance;
+        //public static PizzeriaDbContext Instance
+        //{
+        //    get { 
+        //        if(_instance == null)
+        //            _instance = new PizzeriaDbContext();
+        //        return _instance;
+        //    }
+        //}
         public DbSet<Pizza> Pizze { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }

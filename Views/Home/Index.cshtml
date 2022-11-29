@@ -7,6 +7,10 @@
     <div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-sizing-default">Cerca</span>
         <input type="text" class="form-control js_search_pizza">
+        <span class="input-group-text" id="inputGroup-sizing-default">Categoria</span>
+        <select class="form-select js_category_pizza">
+            <option value="0" selected>Tutte</option>
+        </select>
     </div>
 </div>
 
@@ -22,8 +26,10 @@
 @section Scripts{
     <script type="text/javascript">
         document.querySelector(".js_search_pizza").addEventListener('keyup', SearchPizzaInput);
+        document.querySelector('.js_category_pizza').addEventListener('change', SearchPizzaInput)
         var timeoutId = null;
         AllPizza();
+        CategorySelect();
 
         // chiamata api per tutte le pizze
         function AllPizza() {
@@ -35,24 +41,22 @@
         }
 
         // chiamata api per le pizze cercate nell'input
-        function SearchPizzaInput(e){
-            let value = e.target.value;
+        function SearchPizzaInput(){
+            let value = document.querySelector('.js_search_pizza').value;
+            let category = document.querySelector('.js_category_pizza').value;
             if (timeoutId != null)
                 clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
-                if(value == ""){
-                    AllPizza();
-                } else {
-                    axios.get('/api/pizza/search', {
-                        params: {
-                            name: value
-                        }
-                    }).then(res => {
-                        RenderPizza(res.data);
-                    }).catch(error => {
-                        console.log(error);
-                    });
-                }
+                axios.get('/api/pizza/search', {
+                    params: {
+                        name: value,
+                        categoryId: category
+                    }
+                }).then(res => {
+                    RenderPizza(res.data);
+                }).catch(error => {
+                    console.log(error);
+                });
             }, 500);
         }
 
@@ -66,7 +70,6 @@
                 document.querySelector('.js_no_pizza').classList.add('d-none');
                 document.querySelector('.js_pizza_table').innerHTML = '';
                 data.forEach(pizza => {
-                    console.log('pizza', pizza);
                     document.querySelector('.js_pizza_table').innerHTML +=
                         `
                             <div class="card m-2" style="width: 18rem;">
@@ -81,6 +84,20 @@
                         `;
                 });
             }
+        }
+
+        // chiamata api per tutte le category
+        function CategorySelect(){
+            axios.get('/api/category/get').then(res => {
+                res.data.forEach(category => {
+                    document.querySelector('.js_category_pizza').innerHTML += 
+                    `
+                        <option value="${category.id}">${category.name}</option>
+                    `;
+                });
+            }).catch(error => {
+                console.log(error);
+            });
         }
     </script>
 }

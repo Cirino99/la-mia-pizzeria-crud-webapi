@@ -22,9 +22,9 @@ namespace la_mia_pizzeria_static.Controllers.Api
             List<Pizza> pizze = pizzaRepository.All();
             return Ok(pizze);
         }
-        public IActionResult Search(string? name)
+        public IActionResult Search(string? name, int? categoryId)
         {
-            List<Pizza> pizze = pizzaRepository.GetByName(name);
+            List<Pizza> pizze = pizzaRepository.GetPizze(name, (int)categoryId);
             return Ok(pizze);
         }
         [HttpGet("{id}")]

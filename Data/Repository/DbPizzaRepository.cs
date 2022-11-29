@@ -6,9 +6,9 @@ namespace la_mia_pizzeria_static.Data.Repository
     public class DbPizzaRepository : IPizzaRepository
     {
         PizzeriaDbContext db;
-        public DbPizzaRepository()
+        public DbPizzaRepository(PizzeriaDbContext _db)
         {
-            db = PizzeriaDbContext.Instance;
+            db = _db;
         }
         public List<Pizza> All()
         {
@@ -18,9 +18,15 @@ namespace la_mia_pizzeria_static.Data.Repository
         {
             return db.Pizze.Where(p => p.Id == id).Include("Category").Include("Ingredients").FirstOrDefault();
         }
-        public List<Pizza> GetByName(string name)
+        public List<Pizza> GetPizze(string name, int categoryId)
         {
-            return db.Pizze.Where(p => p.Name.Contains(name)).ToList();
+            if (name == null && categoryId == 0)
+                return All();
+            if (categoryId == 0)
+                return db.Pizze.Where(p => p.Name.Contains(name)).ToList();
+            if (name == null)
+                return db.Pizze.Where(p => p.CategoryId == categoryId).ToList();
+            return db.Pizze.Where(p => p.Name.Contains(name)).Where( p => p.CategoryId == categoryId).ToList();
         }
         public void Create(Pizza pizza, List<Ingredient> ingredients, Category category)
         {

@@ -1,3 +1,4 @@
+using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Data.Repository;
 using System.Text.Json.Serialization;
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();  //autoload
 
+builder.Services.AddDbContext<PizzeriaDbContext>();
 //builder.Services.AddScoped<IPizzaRepository, InMemoryPizzaRepository>();
 builder.Services.AddScoped<IPizzaRepository, DbPizzaRepository>();
 //builder.Services.AddScoped<ICategoryRepository, InMemoryCategoryRepository>();

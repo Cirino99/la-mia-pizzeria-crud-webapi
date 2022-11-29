@@ -7,7 +7,7 @@ namespace la_mia_pizzeria_static.Data.Repository
     {
         List<Pizza> All();
         Pizza GetById(int id);
-        List<Pizza> GetByName(string name);
+        List<Pizza> GetPizze(string name, int categoryId);
         void Create(Pizza pizza, List<Ingredient> ingredients, Category category);
         void Update(Pizza pizza, Pizza formData, List<Ingredient> ingredients, Category category);
         void Delete(Pizza pizza);
