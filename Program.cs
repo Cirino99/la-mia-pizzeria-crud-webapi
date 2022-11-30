@@ -21,6 +21,7 @@ builder.Services.AddScoped<IPizzaRepository, DbPizzaRepository>();
 builder.Services.AddScoped<ICategoryRepository, DbCategoryRepository>();
 //builder.Services.AddScoped<IIngredientRepository, InMemoryIngredientRepository>();
 builder.Services.AddScoped<IIngredientRepository, DbIngredientRepository>();
+builder.Services.AddScoped<IMessageRepository, DbMessageRepository>();
 
 var app = builder.Build();
 
