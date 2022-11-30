@@ -7,5 +7,6 @@ namespace la_mia_pizzeria_static.Data.Repository
         List<Message> All();
         Message GetById(int id);
         void Create(Message message);
+        void Delete(Message message);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace la_mia_pizzeria_static.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/[action]", Order = 1)]
     [ApiController]
     public class MessageController : ControllerBase
     {

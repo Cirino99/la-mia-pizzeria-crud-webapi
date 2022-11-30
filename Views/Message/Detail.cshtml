@@ -1,0 +1,21 @@
+﻿@model Message
+
+@{
+    ViewData["Title"] = "Messaggio da" + Model.Name;
+}
+
+<div class="text-center">
+    <h1>Dettaglio Messaggio</h1>
+</div>
+<section class="ms-5">
+    <h5>Email: @Model.Email</h5>
+    <h5>Nome: @Model.Name</h5>
+    <h5>Nome: @Model.Title</h5>
+    <p>Descrizione: @Model.Text</p>
+    <div class="d-flex flex-wrap">
+        <form asp-controller="Message" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Elimina</button>
+        </form>
+    </div>
+</section>

@@ -22,5 +22,10 @@ namespace la_mia_pizzeria_static.Data.Repository
             db.Messages.Add(message);
             db.SaveChanges();
         }
+        public void Delete(Message message)
+        {
+            db.Messages.Remove(message);
+            db.SaveChanges();
+        }
     }
 }
