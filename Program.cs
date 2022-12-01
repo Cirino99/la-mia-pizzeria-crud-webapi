@@ -1,9 +1,13 @@
 using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Data.Repository;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("PizzeriaDbContextConnection");builder.Services.AddDbContext<PizzeriaDbContext>(options =>
+    options.UseSqlServer(connectionString));builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<PizzeriaDbContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 // serve per risolvere il Circular Object References
@@ -37,9 +41,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

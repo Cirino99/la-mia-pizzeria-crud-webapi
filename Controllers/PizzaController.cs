@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Data.Repository;
 using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using System;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]/{id?}",Order = 0)] //serve per dare un ordine in caso di controller con nome ed action uguale
     public class PizzaController : Controller
     {

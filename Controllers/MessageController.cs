@@ -1,9 +1,11 @@
 ﻿using la_mia_pizzeria_static.Data.Repository;
 using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]/{id?}", Order = 0)]
     public class MessageController : Controller
     {
