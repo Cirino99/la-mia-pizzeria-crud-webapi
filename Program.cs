@@ -26,6 +26,7 @@ builder.Services.AddScoped<ICategoryRepository, DbCategoryRepository>();
 //builder.Services.AddScoped<IIngredientRepository, InMemoryIngredientRepository>();
 builder.Services.AddScoped<IIngredientRepository, DbIngredientRepository>();
 builder.Services.AddScoped<IMessageRepository, DbMessageRepository>();
+builder.Services.AddScoped<IReviewRepository, DbReviewRepository>();
 
 var app = builder.Build();
 
