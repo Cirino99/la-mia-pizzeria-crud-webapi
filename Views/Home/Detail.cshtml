@@ -7,8 +7,24 @@
 <div class="text-center">
     <h1>Dettaglio Pizza</h1>
 </div>
-<section class="ms-5 js_detail_pizza">
-    
+<section class="ms-5 js_detail_pizza"></section>
+<section class="ms-5 mt-5 js_review">
+    <button type="button" onclick="NewReview()" class="btn btn-secondary">Nuova Recensione</button>
+    <div class="col-6 mt-3">
+        <form id="form_review" class="d-none" onsubmit="SendReview(event)">
+            <div class="mb-3">
+                <label for="contact-name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="contact-name">
+            </div>
+            <div class="mb-3">
+                <label for="contact-text" class="form-label">Testo</label>
+                <textarea class="form-control" id="contact-text" rows="10"></textarea>
+            </div>
+            <input type="submit" class="btn btn-primary d-none" id="save_button" value="Salva" />
+            <input type="button" onclick="updateReview()" class="btn btn-warning d-none" id="modify_button" value="Modifica" />
+        </form>
+    </div>
+    <div class="col-10 mt-3 js_list_review d-flex flex-wrap"></div>
 </section>
 
 @section Scripts{
@@ -31,10 +47,8 @@
                     <h5>Prezzo: ${pizza.price} €</h5>
                 `;
         }).catch(error => console.log(error));
-
-        function Prova(){
-            return "<li>prova</li>";
-        }
+        ListReview();
+        var idReview = 0;
 
         function Ingredients(ingredientsArr) {
             ingredients = "";
@@ -42,6 +56,105 @@
                 ingredients += `<li class="badge btn-info">${ingredient.name}</li> `;
             });
             return ingredients;
+        }
+
+        function NewReview(){
+            document.getElementById("form_review").classList.toggle("d-none");
+            document.getElementById("save_button").classList.toggle("d-none");
+        }
+
+        function ListReview(){
+            console.log(@Model);
+            axios.get(`/api/review/getlist/${@Model}`).then(res => {
+                const reviews = res.data;
+                console.log(reviews);
+                document.querySelector('.js_list_review').innerHTML = "";
+                reviews.forEach(review => {
+                    document.querySelector('.js_list_review').innerHTML +=
+                        `
+                            <div class="card" style="width: 18rem;">
+                              <div class="card-body">
+                                <h5 class="card-title">${review.name}</h5>
+                                <p class="card-text">${review.text}</p>
+                                <div class="d-flex">
+                                    <button href="#" class="btn btn-primary me-2" onclick="ModifyReview(${review.id})">Modifica</button>
+                                    <button href="#" class="btn btn-primary" onclick="DeleteReview(${review.id})">Elimina</button>
+                                </div>
+                              </div>
+                            </div>
+                        `;
+                });
+            }).catch(error => console.log(error));
+        }
+
+        function SendReview(e) {
+            e.preventDefault();
+            const nameInput = document.querySelector('#contact-name');
+            const textInput = document.querySelector('#contact-text');
+            axios.post('/api/review/create', {
+                name: nameInput.value,
+                text: textInput.value,
+                pizzaId: @Model
+            }).then(res => {             
+                nameInput.value = '';
+                textInput.value = '';
+                NewReview();
+                swal("Successo", "Recensione inserita correttamente!", "success");
+                ListReview();
+            }).catch(error => {
+                let error_message = "";
+                const keys = Object.keys(error.response.data.errors);
+                keys.forEach(key => {
+                    error_message += error.response.data.errors[key][0] + "\n ";
+                });
+                swal("Errore", error_message, "error");
+            });
+        }
+
+        function DeleteReview(id){
+            axios.delete(`/api/review/delete/${id}`).then(res => {
+                swal("Successo", "Recensione eliminata correttamente!", "success");
+                ListReview();
+            }).catch (error => console.log(error));
+        }
+
+        function EditReview() {
+            document.getElementById("form_review").classList.toggle("d-none");
+            document.getElementById("modify_button").classList.toggle("d-none");
+        }
+
+        function ModifyReview(id){
+            axios.get(`/api/review/get/${id}`).then(res => {
+                const review = res.data;
+                console.log(review);
+                EditReview();
+                idReview = review.id;
+                document.querySelector('#contact-name').value = review.name;
+                document.querySelector('#contact-text').value = review.text;
+            }).catch(error => console.log(error));
+        }
+
+        function updateReview(){
+            const nameInput = document.querySelector('#contact-name');
+            const textInput = document.querySelector('#contact-text');
+            axios.put(`/api/review/update/${idReview}`, {
+                name: nameInput.value,
+                text: textInput.value,
+                pizzaId: @Model
+            }).then(res => {
+                nameInput.value = '';
+                textInput.value = '';
+                EditReview();
+                swal("Successo", "Recensione modificata correttamente!", "success");
+                ListReview();
+            }).catch(error => {
+                let error_message = "";
+                const keys = Object.keys(error.response.data.errors);
+                keys.forEach(key => {
+                    error_message += error.response.data.errors[key][0] + "\n ";
+                });
+                swal("Errore", error_message, "error");
+            });
         }
     </script>    
 }

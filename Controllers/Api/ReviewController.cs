@@ -14,7 +14,14 @@ namespace la_mia_pizzeria_static.Controllers.Api
         {
             reviewRepository = _reviewRepository;
         }
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
+        {
+            Review review = reviewRepository.GetById(id);
+            return Ok(review);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetList(int id)
         {
             List<Review> review = reviewRepository.GetList(id);
             return Ok(review);
