@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using la_mia_pizzeria_static.Data;
 
@@ -11,9 +12,11 @@ using la_mia_pizzeria_static.Data;
 namespace lamiapizzeriastatic.Migrations
 {
     [DbContext(typeof(PizzeriaDbContext))]
-    partial class PizzeriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201140623_CreateReviewsTable")]
+    partial class CreateReviewsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,16 +349,11 @@ namespace lamiapizzeriastatic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
 
                     b.ToTable("Reviews");
                 });
@@ -437,25 +435,9 @@ namespace lamiapizzeriastatic.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("la_mia_pizzeria_static.Models.Review", b =>
-                {
-                    b.HasOne("la_mia_pizzeria_static.Models.Pizza", "Pizza")
-                        .WithMany("Reviews")
-                        .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pizza");
-                });
-
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Category", b =>
                 {
                     b.Navigation("Pizze");
-                });
-
-            modelBuilder.Entity("la_mia_pizzeria_static.Models.Pizza", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
